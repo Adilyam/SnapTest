@@ -11,6 +11,7 @@
 #import <math.h>
 #import <GPUImage.h>
 #import "PrefixHeader.h"
+#import "UIView+Extention.h"
 
 
 
@@ -50,9 +51,9 @@ typedef NS_ENUM(NSInteger, PanGestureDirection) {
 - (instancetype)initWithArray:(NSArray *)array viewCenterPoint:(CGPoint)origin inView:(UIView *)superView{
     self = [super initWithFrame:CGRectMake(0, 0, SnapseedDropMenuCellWidth, SnapseedDropMenuCellHeight * array.count)];
     _dataArray = array;
-    self.center = CGPointMake(origin.x, origin.y);
-
-    self.originY = origin.y - (self.frame.size.height / 2);
+    self.centerX = origin.x;
+    self.centerY = origin.y;
+    self.originY = origin.y - (self.height / 2);
     self.dataSource = self;
     self.delegate = self;
     self.rowHeight = SnapseedDropMenuCellHeight;
@@ -82,16 +83,16 @@ typedef NS_ENUM(NSInteger, PanGestureDirection) {
 
 
 - (void) selectCellByOffsetY{
-//    CGFloat distant = self.y - self.originY;
-//    NSInteger selectNum = 0;
-//    if(distant >= 0) {
-//        selectNum = distant / SnapseedDropMenuCellHeight;
-//    } else {
-//        selectNum = (-distant) / SnapseedDropMenuCellHeight ;
-//    }
-//    _selectNum = selectNum;
-//
-//    [self reloadData];
+    CGFloat distant = self.y - self.originY;
+    NSInteger selectNum = 0;
+    if(distant >= 0) {
+        selectNum = distant / SnapseedDropMenuCellHeight;
+    } else {
+        selectNum = (-distant) / SnapseedDropMenuCellHeight ;
+    }
+    _selectNum = selectNum;
+
+    [self reloadData];
 }
 
 #pragma mark - UITableview
@@ -166,17 +167,17 @@ typedef NS_ENUM(NSInteger, PanGestureDirection) {
     [panGesture setTranslation:CGPointZero inView:_superView];
     
     
-//    if(_gestureLock == UpOrDown){
-//        //锁定当前滑动为上下滑动
-//
-//        self.y += movePoint.y;
-//        if(self.y <= (self.originY - self.frame.size.height + SnapseedDropMenuCellHeight)) {
-//            self.y = self.originY - self.frame.size.height  + SnapseedDropMenuCellHeight;
-//        } else if(self.y >= self.originY) {
-//            self.y = self.originY;
-//        }
-//        [self selectCellByOffsetY];
-    // }
+    if(_gestureLock == UpOrDown){
+        //锁定当前滑动为上下滑动
+
+        self.y += movePoint.y;
+        if(self.y <= (self.originY - self.frame.size.height + SnapseedDropMenuCellHeight)) {
+            self.y = self.originY - self.frame.size.height  + SnapseedDropMenuCellHeight;
+        } else if(self.y >= self.originY) {
+            self.y = self.originY;
+        }
+        [self selectCellByOffsetY];
+     }
      if(_gestureLock == LeftOrRight ){
         //锁定当前滑动为左右滑动
         SnapseedDropMenuModel * model = [_dataArray objectAtIndex:_selectNum];

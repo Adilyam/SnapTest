@@ -12,6 +12,7 @@
 #import <math.h>
 #import "PrefixHeader.h"
 #import <GPUImage.h>
+#import "UIView+Extention.h"
 
 
 @interface ViewController () <SnapseedDropMenuDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>{
@@ -144,13 +145,13 @@
     if(self.previewImageView == nil) {
         self.previewImageView = [[GPUImageView alloc] initWithFrame:CGRectZero];
         
-        self.previewImageView.frame = CGRectMake(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 6, SCREEN_WIDTH - 30, SCREEN_HEIGHT / 3 * 2);
+//        self.previewImageView.frame = CGRectMake(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 6, SCREEN_WIDTH - 30, SCREEN_HEIGHT / 3 * 2);
         
-//        self.previewImageView.width = SCREEN_WIDTH - 30;
-//        self.previewImageView.height = SCREEN_HEIGHT / 3 * 2;
+        self.previewImageView.width = SCREEN_WIDTH - 30;
+        self.previewImageView.height = SCREEN_HEIGHT / 3 * 2;
         self.previewImageView.contentMode = UIViewContentModeScaleAspectFit;
-//        self.previewImageView.centerX = SCREEN_WIDTH / 2;
-//        self.previewImageView.y = SCREEN_HEIGHT / 6;
+        self.previewImageView.centerX = SCREEN_WIDTH / 2;
+        self.previewImageView.y = SCREEN_HEIGHT / 6;
         [self.view addSubview:self.previewImageView];
     }
     self.filterPipeline = [[GPUImageFilterPipeline alloc]initWithOrderedFilters:_filtersArray input:self.gpuOriginImage output:_previewImageView];
